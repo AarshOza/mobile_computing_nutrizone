@@ -1,0 +1,76 @@
+{
+  "project_info": {
+    "project_number": "827816821366",
+    "project_id": "nutrizone-9c581",
+    "storage_bucket": "nutrizone-9c581.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:827816821366:android:7469839ceea08faa8b5557",
+        "android_client_info": {
+          "package_name": "com.example.nutrizone"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "827816821366-kb0grdb8tdq94j48u858jqnnrtfq0snn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDlhS06AyKCHXieMtiJMsB8g8sTOwrAwQ8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "827816821366-kb0grdb8tdq94j48u858jqnnrtfq0snn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:827816821366:android:9663678709f6222f8b5557",
+        "android_client_info": {
+          "package_name": "com.example.nutrizone_login_module"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "827816821366-15jc0png5460srgfeh6lpqb687v4nsj8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.nutrizone_login_module",
+            "certificate_hash": "003eb5ec5b0e29d0561bc4aa100bf334220bd3a4"
+          }
+        },
+        {
+          "client_id": "827816821366-kb0grdb8tdq94j48u858jqnnrtfq0snn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDlhS06AyKCHXieMtiJMsB8g8sTOwrAwQ8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "827816821366-kb0grdb8tdq94j48u858jqnnrtfq0snn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
