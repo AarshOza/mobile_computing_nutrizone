@@ -7,7 +7,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
-import com.example.nutrizone.Profile;
+import com.example.nutrizone.Home;
 import com.example.nutrizone.Registration;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -26,7 +26,7 @@ import java.util.Map;
 import static androidx.core.content.ContextCompat.startActivity;
 
 public class sign_up_email {
-    public void register_email(Context context, String register_name, String register_email, String register_password, String[] id, Registration registration) {
+    public void register_email(Context context, String register_name, String register_email, String register_password, String[] id, String gender, Registration registration) {
 
         FirebaseAuth.getInstance().createUserWithEmailAndPassword(register_email, register_password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -36,7 +36,7 @@ public class sign_up_email {
                             id[0] = FirebaseAuth.getInstance().getCurrentUser().getUid();
                             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                             UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                                    .setDisplayName(register_name)
+                                    .setDisplayName(register_name + " /"+ gender)
                                     .build();
 
                             user.updateProfile(profileUpdates)
@@ -49,11 +49,11 @@ public class sign_up_email {
                                         }
                                     });
 
-                            add_user_to_firestore(register_name, register_email, id[0]);
+                            add_user_to_firestore(register_name, register_email, id[0], gender);
                             String uid = user.getUid();
                             Toast.makeText(registration, "User registered succesfully", Toast.LENGTH_LONG).show();
-                            Intent i = new Intent(registration, Profile.class);
-                            context.startActivity(i);
+                            Intent i = new Intent(registration, Home.class);
+                            registration.startActivity(i);
                         }
                         else {
                             Toast.makeText(registration, "User cannot be registered", Toast.LENGTH_LONG).show();
@@ -62,7 +62,7 @@ public class sign_up_email {
                 });
     }
 
-    private void add_user_to_firestore(String name, String email, String id){
+    private void add_user_to_firestore(String name, String email, String id, String gender){
         Log.d("LOGIN_DETAILS", "in firestore function");
         if (name != null && email != null) {
 
@@ -70,13 +70,15 @@ public class sign_up_email {
             user.put("id", id);
             user.put("DisplayName", name);
             user.put("email", email);
+            user.put("gender", gender);
 
             FirebaseFirestore.getInstance().collection("users")
-                    .add(user)
-                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    .document(id)
+                    .set(user)
+                    .addOnSuccessListener(new OnSuccessListener() {
                         @Override
-                        public void onSuccess(DocumentReference documentReference) {
-                            Log.d("LOGIN_DETAILS", "DocumentSnapshot added with ID: " + documentReference.getId());
+                        public void onSuccess(Object o) {
+                            Log.d("LOGIN_DETAILS", "DocumentSnapshot added with ID: " + o);
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {

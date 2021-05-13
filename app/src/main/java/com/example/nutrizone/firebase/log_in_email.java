@@ -7,8 +7,9 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.example.nutrizone.Home;
+import com.example.nutrizone.Login;
 import com.example.nutrizone.MainActivity;
-import com.example.nutrizone.Profile;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -16,7 +17,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class log_in_email {
-    public void log_in_email(Context context, String user_email, String user_password, MainActivity mainActivity) {
+    public void log_in_email(Context context, String user_email, String user_password, Login mainActivity) {
+        Log.d("LOGIN_DETAILS", user_email + "==> " + user_password);
         FirebaseAuth.getInstance().signInWithEmailAndPassword(user_email, user_password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
@@ -25,7 +27,7 @@ public class log_in_email {
                             Log.d("LOGIN_DETAILS", "logged in");
                             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                             String uid = user.getUid();
-                            mainActivity.startActivity(new Intent(mainActivity, Profile.class));
+                            mainActivity.startActivity(new Intent(mainActivity, Home.class));
                             Toast.makeText(mainActivity, "User logged in succesfully", Toast.LENGTH_LONG).show();
                         }
                         else {

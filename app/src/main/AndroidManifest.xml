@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.nutrizone">
 
+    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
@@ -13,20 +14,27 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Nutrizone.NoActionBar">
+        <activity android:name=".Extract"></activity>
+        <activity android:name=".Login" />
+        <activity android:name=".PreviousItems" />
+        <activity android:name=".AddFoodButtons" />
+
+        <meta-data
+            android:name="com.google.mlkit.vision.DEPENDENCIES"
+            android:value="ocr" />
+
+        <activity
+            android:name=".Home"
+            android:label="Home" />
         <activity
             android:name=".Profile"
-            android:theme="@style/Theme.Nutrizone.NoActionBar">
-
-        </activity>
+            android:theme="@style/Theme.Nutrizone.NoActionBar" />
         <activity
             android:name=".Registration"
-            android:theme="@style/Theme.Nutrizone.NoActionBar">
-
-        </activity>
+            android:theme="@style/Theme.Nutrizone.NoActionBar" />
         <activity
             android:name=".MainActivity"
             android:theme="@style/Theme.Nutrizone.NoActionBar">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
