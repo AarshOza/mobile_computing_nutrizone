@@ -13,6 +13,6 @@ public class UtilityTest extends TestCase {
 
         float total_calories = Utility.getQuantity(input, "Total Sugars");
 
-        assertEquals(28.0, total_calories);
+        assertEquals(28.0f, total_calories);
     }
 }
