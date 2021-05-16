@@ -1,196 +1,205 @@
 package com.example.nutrizone;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.util.SparseArray;
-import android.view.SurfaceHolder;
-import android.view.SurfaceView;
-import android.view.View;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.vision.CameraSource;
-import com.google.android.gms.vision.Detector;
+import com.example.nutrizone.firebase.sign_up_email;
+import com.google.android.gms.vision.Frame;
 import com.google.android.gms.vision.text.TextBlock;
 import com.google.android.gms.vision.text.TextRecognizer;
+import com.theartofdev.edmodo.cropper.CropImage;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
 public class Extract extends AppCompatActivity {
 
-    private CameraSource camera;
+    private static final int CAMERA_REQUEST = 100;
+    private static final int STORAGE_REQUEST = 200;
+    String cameraPermission[];
+    String storagePermission[];
     private TextRecognizer text_recognizer;
-    private SurfaceView camera_view;
-    private TextView extracted_text;
-    private LinearLayout toggle_button;
-    private Boolean surface_flag = true;
     private String extracted_data;
-    public ArrayList<String> data_array = new ArrayList<String>();;
-    private static final int RC_HANDLE_CAMERA_PERM = 2;
+    public ArrayList<String> data_array = new ArrayList<String>();
+    Utility utilities = new Utility();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_extract);
+        showImagePicDialog();
 
-        camera_view = (SurfaceView) findViewById(R.id.camera_view);
-        extracted_text = (TextView) findViewById(R.id.extracted_text);
-        toggle_button = (LinearLayout) findViewById(R.id.toggle_button);
+        cameraPermission = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
+        storagePermission = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
+    }
 
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) ==
-                PackageManager.PERMISSION_GRANTED) {
-            startTextRecognizer();
-        } else {
-            camera_permission();
-        }
-
-
-        toggle_button.setOnClickListener(new View.OnClickListener() {
+    private void showImagePicDialog() {
+        String options[] = {"Camera", "Gallery"};
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Pick Image From");
+        builder.setItems(options, new DialogInterface.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
-            public void onClick(View v) {
-                SurfaceView surface_view = findViewById(R.id.camera_view);
-                Log.d("LOGIN_DETAILS", "data on click ==> " +extracted_data);
-//                Log.d("LOGIN_DETAILS", "array1 on click " + data_array);
-                Toast.makeText(getApplicationContext(), "Recognized your Text",
-                        Toast.LENGTH_LONG).show();
-                onBackPressed();
-                surface_view.setVisibility(View.GONE);
+            public void onClick(DialogInterface dialog, int which) {
+                if (which == 0) {
+                    if (!checkCameraPermission()) {
+                        requestCameraPermission();
+                    } else {
+                        pickFromGallery();
+                    }
+                } else if (which == 1) {
+                    if (!checkStoragePermission()) {
+                        requestStoragePermission();
+                    } else {
+                        pickFromGallery();
+                    }
+                }
             }
         });
+        builder.create().show();
     }
 
+    // checking storage permissions
+    private Boolean checkStoragePermission() {
+        boolean result = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == (PackageManager.PERMISSION_GRANTED);
+        return result;
+    }
+
+    // Requesting gallery permission
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private void requestStoragePermission() {
+        requestPermissions(storagePermission, STORAGE_REQUEST);
+    }
+
+    // checking camera permissions
+    private Boolean checkCameraPermission() {
+        boolean result = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == (PackageManager.PERMISSION_GRANTED);
+        boolean result1 = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == (PackageManager.PERMISSION_GRANTED);
+        return result && result1;
+    }
+
+    // Requesting camera permission
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private void requestCameraPermission() {
+        requestPermissions(cameraPermission, CAMERA_REQUEST);
+    }
+
+    // Requesting camera and gallery
+    // permission if not given
     @Override
-    protected void onResume() {
-        super.onResume();
-        SurfaceView surface_view = findViewById(R.id.camera_view);
-        if (surface_flag) {
-            surface_view.setVisibility(View.VISIBLE);
-        } else {
-            surface_view.setVisibility(View.GONE);
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case CAMERA_REQUEST: {
+                if (grantResults.length > 0) {
+                    boolean camera_accepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+                    boolean writeStorageaccepted = grantResults[1] == PackageManager.PERMISSION_GRANTED;
+                    if (camera_accepted && writeStorageaccepted) {
+                        pickFromGallery();
+                    } else {
+                        Toast.makeText(this, "Please Enable Camera and Storage Permissions", Toast.LENGTH_LONG).show();
+                    }
+                }
+            }
+            break;
+            case STORAGE_REQUEST: {
+                if (grantResults.length > 0) {
+                    boolean writeStorageaccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+                    if (writeStorageaccepted) {
+                        pickFromGallery();
+                    } else {
+                        Toast.makeText(this, "Please Enable Storage Permissions", Toast.LENGTH_LONG).show();
+                    }
+                }
+            }
+            break;
         }
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        camera.release();
+    // Here we will pick image from gallery or camera
+    private void pickFromGallery() {
+        CropImage.activity().start(Extract.this);
     }
 
-    private void startTextRecognizer() {
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            if (resultCode == RESULT_OK) {
+                Uri resultUri = result.getUri();
+                try {
+                    extraction(resultUri);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
 
+    private void extraction(Uri resultUri) throws IOException {
         text_recognizer = new TextRecognizer.Builder(getApplicationContext()).build();
-
         if (!text_recognizer.isOperational()) {
             Toast.makeText(getApplicationContext(), "Cannot start the text recognizer " +
                     "please try again later", Toast.LENGTH_LONG).show();
         }
         else {
-            camera = new CameraSource.Builder(getApplicationContext(), text_recognizer)
-                    .setFacing(CameraSource.CAMERA_FACING_BACK)
-                    .setRequestedPreviewSize(1280, 1024)
-                    .setRequestedFps(15.0f)
-                    .setAutoFocusEnabled(true)
-                    .build();
+            Bitmap takenImage = MediaStore.Images.Media.getBitmap(this.getContentResolver(), resultUri);
+            Frame frame = new Frame.Builder().setBitmap(takenImage).build();
+            SparseArray<TextBlock> items = text_recognizer.detect(frame);
 
-            camera_view.getHolder().addCallback(new SurfaceHolder.Callback() {
-                @Override
-                public void surfaceCreated(SurfaceHolder holder) {
-                    if (ActivityCompat.checkSelfPermission(getApplicationContext(),
-                            Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
-                        try {
-                            camera.start(camera_view.getHolder());
-                        }
-                        catch (IOException e) {
-                            e.printStackTrace();
-                            Log.d("LOGIN_DETAILS", String.valueOf(e));
-                        }
-                    }
-                    else {
-                        camera_permission();
-                    }
+            StringBuilder stringBuilder = new StringBuilder();
+            for (int i = 0; i < items.size(); ++i) {
+                TextBlock item = items.valueAt(i);
+                if (item != null && item.getValue() != null) {
+                    stringBuilder.append(item.getValue() + " ");
+                    String new_item = item.getValue();
+                    data_array.add(new_item);
                 }
-
-                @Override
-                public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-
-                }
-
-                @Override
-                public void surfaceDestroyed(SurfaceHolder holder) {
-                    camera.stop();
-                }
-            });
-
-            text_recognizer.setProcessor(new Detector.Processor<TextBlock>() {
-                @Override
-                public void release() {
-
-                }
-
-                @Override
-                public void receiveDetections(Detector.Detections<TextBlock> detections) {
-                    SparseArray<TextBlock> items = detections.getDetectedItems();
-                    StringBuilder stringBuilder = new StringBuilder();
-                    for (int i = 0; i < items.size(); ++i) {
-                        TextBlock item = items.valueAt(i);
-                        if (item != null && item.getValue() != null) {
-                            stringBuilder.append(item.getValue() + "-");
-                            String new_item = item.getValue();
-                            data_array.add(new_item);
-                        }
-                    }
-
-                    final String fullText = stringBuilder.toString();
-                    extracted_data = fullText;
-                    Handler handler = new Handler(Looper.getMainLooper());
-                    handler.post(new Runnable() {
-                        public void run() {
-                            extracted_text.setText(fullText);
-                        }
-                    });
-
-                }
-            });
+            }
+            final String fullText = stringBuilder.toString();
+            Log.d("LOGIN_DETAILS", "data is ==>" + fullText);
+//            Log.d("LOGIN_DETAILS", "Calories in Swiss Roll is ==>" + utilities.getQuantity(fullText, "Calories"));
+            Log.d("LOGIN_DETAILS", "Carbohydrate in Swiss Roll is ==>" + utilities.getQuantity(fullText, "Total Carbohydrate"));
+            Log.d("LOGIN_DETAILS", "Cholesterol in Swiss Roll is ==>" + utilities.getQuantity(fullText , "Cholesterol"));
+            Log.d("LOGIN_DETAILS", "Fat in Swiss Roll is ==>" + utilities.getQuantity(fullText, "Total Fat"));
+            Log.d("LOGIN_DETAILS", "Potassium in Swiss Roll is ==>" + utilities.getQuantity(fullText, "Potassium"));
+            Log.d("LOGIN_DETAILS", "Protein in Swiss Roll is ==>" + utilities.getQuantity(fullText, "Protein"));
+            Log.d("LOGIN_DETAILS", "Sodium in Swiss Roll is ==>" + utilities.getQuantity(fullText, "Sodium"));
         }
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
-        if (requestCode != RC_HANDLE_CAMERA_PERM) {
-            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-            return;
-        }
-
-        if (grantResults.length != 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            startTextRecognizer();
-            return;
-        }
-
+    protected void onResume() {
+        super.onResume();
+//        SurfaceView surface_view = findViewById(R.id.camera_view);
+//        if (surface_flag) {
+//            surface_view.setVisibility(View.VISIBLE);
+//        } else {
+//            surface_view.setVisibility(View.GONE);
+//        }
     }
 
-    private void camera_permission() {
-
-        final String[] permissions = new String[]{Manifest.permission.CAMERA};
-
-        if (!ActivityCompat.shouldShowRequestPermissionRationale(this,
-                Manifest.permission.CAMERA)) {
-            ActivityCompat.requestPermissions(this, permissions, RC_HANDLE_CAMERA_PERM);
-            return;
-        }
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+//        camera.release();
     }
 }
