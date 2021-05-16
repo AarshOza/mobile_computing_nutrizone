@@ -26,7 +26,7 @@ import java.util.Map;
 import static androidx.core.content.ContextCompat.startActivity;
 
 public class sign_up_email {
-    public void register_email(Context context, String register_name, String register_email, String register_password, String[] id, String gender, Registration registration) {
+    public void register_email(Context context, String register_name, String register_email, String register_password, String[] id, String formattedDate, String gender, Registration registration) {
 
         FirebaseAuth.getInstance().createUserWithEmailAndPassword(register_email, register_password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -49,7 +49,7 @@ public class sign_up_email {
                                         }
                                     });
 
-                            add_user_to_firestore(register_name, register_email, id[0], gender);
+                            add_user_to_firestore(register_name, register_email, id[0], gender, formattedDate);
                             String uid = user.getUid();
                             Toast.makeText(registration, "User registered succesfully", Toast.LENGTH_LONG).show();
                             Intent i = new Intent(registration, Home.class);
@@ -62,8 +62,7 @@ public class sign_up_email {
                 });
     }
 
-    private void add_user_to_firestore(String name, String email, String id, String gender){
-        Log.d("LOGIN_DETAILS", "in firestore function");
+    private void add_user_to_firestore(String name, String email, String id, String gender, String formattedDate){
         if (name != null && email != null) {
 
             Map<String, Object> user = new HashMap<>();
@@ -71,6 +70,16 @@ public class sign_up_email {
             user.put("DisplayName", name);
             user.put("email", email);
             user.put("gender", gender);
+            user.put("calories", "0");
+            user.put("carbohydrate", "0");
+            user.put("cholesterol", "0");
+            user.put("fat", "0");
+            user.put("potassium", "0");
+            user.put("protein", "0");
+            user.put("sodium", "0");
+            user.put("water", "0");
+            user.put("date", formattedDate);
+
 
             FirebaseFirestore.getInstance().collection("users")
                     .document(id)

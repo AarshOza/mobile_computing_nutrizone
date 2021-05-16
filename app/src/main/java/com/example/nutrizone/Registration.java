@@ -14,6 +14,11 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+
 public class Registration extends AppCompatActivity implements View.OnClickListener {
 
     sign_up_email sign_up_without_email = new sign_up_email();
@@ -21,6 +26,7 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
     private RadioGroup gender_group;
     private RadioButton gender;
     private Button register_me_button;
+    private String formattedDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +42,11 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
 
         register_me_button.setOnClickListener (this);
 
+        Date c = Calendar.getInstance().getTime();
+        Log.d("Current time => " , String.valueOf(c));
+        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        formattedDate = df.format(c);
+
     }
 
     @Override
@@ -49,7 +60,7 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
             case R.id.register_button:
                 int selectedId = gender_group.getCheckedRadioButtonId();
                 gender = (RadioButton) findViewById(selectedId);
-                sign_up_without_email.register_email(null, register_name, register_email, register_password, id, (String) gender.getText(),this);
+                sign_up_without_email.register_email(null, register_name, register_email, register_password, id, formattedDate,(String) gender.getText(),this);
                 break;
         }
     }

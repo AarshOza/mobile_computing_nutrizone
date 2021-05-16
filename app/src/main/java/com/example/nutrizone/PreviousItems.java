@@ -51,87 +51,72 @@ public class PreviousItems extends AppCompatActivity implements View.OnClickList
                 .collection("products")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
 
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        Map<String, Object> data = document.getData();
-                        show_products(data);
-                        Log.d("LOGIN_DETAILS", "here is "+ data.getClass());
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Map<String, Object> data = document.getData();
+                                show_products(data);
+                            }
+                        } else {
+                            Log.d("LOGIN_DETAILS", "Error getting documents: ", task.getException());
+                        }
                     }
-                } else {
-                    Log.d("LOGIN_DETAILS", "Error getting documents: ", task.getException());
-                }
-            }
-        });
+                });
     }
 
 
     private void show_products(Map<String, Object> data) {
 
-        Log.d("LOGIN_DETAILS","called show_products");
+        String product_name = null;
+
         for (Map.Entry<String,Object> entry : data.entrySet()){
-            Log.d("LOGIN_DETAILS","Key = " + entry.getKey() + ", Value = " + entry.getValue());
+            if (entry.getKey().equals("name")){
+                product_name = (String) entry.getValue();
+            }
         }
 
 
-            LinearLayout parent = new LinearLayout(this);
-            parent.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-            parent.setOrientation(LinearLayout.HORIZONTAL);
-            TextView product =new TextView(this);
-            Button plus = new Button(this);
-            TextView counter_value = new TextView(this);
-            Button minus = new Button(this);
-            int dp_val = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50, this.getResources().getDisplayMetrics());
+        LinearLayout parent = new LinearLayout(this);
+        parent.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        parent.setOrientation(LinearLayout.HORIZONTAL);
 
-            product.setLayoutParams(new ViewGroup.LayoutParams(dp_val, dp_val));
-            product.setGravity(Gravity.START);
-            product.setText("apple");
+        TextView product =new TextView(this);
+        Button add_button = new Button(this);
+        int dp_val = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50, this.getResources().getDisplayMetrics());
+
+        product.setLayoutParams(new ViewGroup.LayoutParams(dp_val, dp_val));
+        product.setGravity(Gravity.START);
+        product.setText(product_name);
 
 
-            minus.setLayoutParams(new ViewGroup.LayoutParams(dp_val, dp_val));
-            minus.setText("-");
-            minus.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
-            minus.setBackgroundColor(0xFF6200EE);
-            minus.setTextColor(Color.parseColor("#FFFFFF"));
+        add_button.setLayoutParams(new ViewGroup.LayoutParams(dp_val, dp_val));
+        add_button.setText("Add");
+        add_button.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
+        add_button.setBackgroundColor(0xFF6200EE);
+        add_button.setTextColor(Color.parseColor("#FFFFFF"));
 
-            counter_value.setId(R.id.counter_value);
-            counter_value.setLayoutParams(new ViewGroup.LayoutParams(dp_val, dp_val));
-            counter_value.setGravity(Gravity.CENTER);
-            counter_value.setText("4");
 
-            plus.setLayoutParams(new ViewGroup.LayoutParams(dp_val, dp_val));
-            plus.setText("+");
-            plus.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
-            plus.setBackgroundColor(0xFF6200EE);
-            plus.setTextColor(Color.parseColor("#FFFFFF"));
+        parent.addView(product);
+        parent.addView(add_button);
 
-            parent.addView(product);
-            parent.addView(minus);
-            parent.addView(counter_value);
-            parent.addView(plus);
 
-            minus.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    counter_value.setText("0");
-                }
-            });
+        String finalProduct_name = product_name;
+        add_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                products products_dialog = new products( data, finalProduct_name);
+                products_dialog.show(getSupportFragmentManager(), "example dialog");
+            }
+        });
 
-            plus.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    counter_value.setText("1");
-                }
-            });
+        parent.setBackground(Drawable.createFromPath("@drawable/border"));
+        int value = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 15, this.getResources().getDisplayMetrics());
 
-            parent.setBackground(Drawable.createFromPath("@drawable/border"));
-            int value = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 15, this.getResources().getDisplayMetrics());
+        parent.setPadding(value, value, value, value);
 
-            parent.setPadding(value, value, value, value);
-
-            linear_view_container.addView(parent);
+        linear_view_container.addView(parent);
 
     }
 

@@ -34,6 +34,7 @@ public class Home extends AppCompatActivity implements View.OnClickListener, cup
     private Slider slider;
     private Image profile;
     public int cups_of_water = 0;
+    public Float calories = 0f;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,36 +54,38 @@ public class Home extends AppCompatActivity implements View.OnClickListener, cup
     }
 
     private void getData() {
-        Log.d("LOGIN_DETAILS", "in getData");
         FirebaseFirestore.getInstance()
                 .collection("users")
                 .document(FirebaseAuth.getInstance()
                         .getCurrentUser().getUid())
                 .addSnapshotListener(new EventListener<DocumentSnapshot>() {
-            @Override
-            public void onEvent(@Nullable DocumentSnapshot snapshot,
-                                @Nullable FirebaseFirestoreException e) {
-                if (e != null) {
-                    Log.d("LOGIN_DETAILS", "Listen failed.", e);
-                    return;
-                }
+                    @Override
+                    public void onEvent(@Nullable DocumentSnapshot snapshot,
+                                        @Nullable FirebaseFirestoreException e) {
+                        if (e != null) {
+                            Log.d("LOGIN_DETAILS", "Listen failed.", e);
+                            return;
+                        }
 
-                if (snapshot != null && snapshot.exists()) {
-                    Log.d("LOGIN_DETAILS", "Current data: " + snapshot.getData());
-                    Map<String, Object> data = snapshot.getData();
-                    for (Map.Entry<String, Object> entry : data.entrySet()) {
-                        if (entry.getKey().equals("cups_of_water")) {
-                            Log.d("LOGIN_DETAILS", "cups: " + "true" );
-                            cups_of_water = Integer.parseInt(entry.getValue().toString());
-                            cups.setText(cups_of_water + "/15 cups");
+                        if (snapshot != null && snapshot.exists()) {
+                            Map<String, Object> data = snapshot.getData();
+
+                            for (Map.Entry<String, Object> entry: data.entrySet()) {
+                                if (entry.getKey().equals("water")) {
+                                    cups_of_water = Integer.parseInt(entry.getValue().toString());
+                                    cups.setText(cups_of_water + "/ 15 cups");
+                                }
+                                if (entry.getKey().equals("calories")) {
+                                    calories = Float.parseFloat(entry.getValue().toString());
+                                    calories_value.setText(Math.round(calories) + "/ 1650 calories");
+                                }
+                            }
+
+                        } else {
+                            Log.d("LOGIN_DETAILS", "Current data: null");
                         }
                     }
-
-                } else {
-                    Log.d("LOGIN_DETAILS", "Current data: null");
-                }
-            }
-        });
+                });
     }
 
     public void viewProfile(View v)
@@ -117,7 +120,7 @@ public class Home extends AppCompatActivity implements View.OnClickListener, cup
 
         FirebaseFirestore.getInstance().collection("users")
                 .document(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                .update("cups_of_water", cups_of_water)
+                .update("water", cups_of_water)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {

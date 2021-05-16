@@ -18,7 +18,6 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class log_in_email {
     public void log_in_email(Context context, String user_email, String user_password, Login mainActivity) {
-        Log.d("LOGIN_DETAILS", user_email + "==> " + user_password);
         FirebaseAuth.getInstance().signInWithEmailAndPassword(user_email, user_password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override

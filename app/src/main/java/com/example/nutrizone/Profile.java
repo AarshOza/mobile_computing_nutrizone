@@ -33,11 +33,8 @@ public class Profile extends AppCompatActivity implements View.OnClickListener {
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String uid = user.getUid();
-        Log.d("LOGIN_DETAILS", "user name is" + user.getDisplayName());
         log_out.setOnClickListener(this);
 
-
-//        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
             // User is signed in
             String[] parts = user.getDisplayName().split("/");
@@ -45,12 +42,9 @@ public class Profile extends AppCompatActivity implements View.OnClickListener {
             String gender = parts[1];
             String email = user.getEmail();
             Uri photoUrl = user.getPhotoUrl();
-
-
             profile_name.setText(name);
             profile_email.setText(email);
             profile_gender.setText(gender);
-
 
         } else {
             Log.d("LOGIN_DETAILS", "no user");
@@ -64,7 +58,6 @@ public class Profile extends AppCompatActivity implements View.OnClickListener {
                 FirebaseAuth.getInstance().signOut();
                 Toast.makeText(this, "You are Logged out", Toast.LENGTH_LONG).show();
                 startActivity(new Intent(this, MainActivity.class));
-                Log.d("LOGIN_DETAILS", "Logged Out");
                 break;
         }
     }
