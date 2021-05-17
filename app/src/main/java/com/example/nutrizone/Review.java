@@ -21,8 +21,7 @@ import java.util.Map;
 
 public class Review extends AppCompatActivity implements View.OnClickListener{
 
-    private TextView sodium, potassium, protein, fat, cholesterol, calories, carbohydrate,
-            sodium_value, potassium_value, protein_value, fat_value, cholesterol_value, calories_value, carbohydrate_value;
+    private TextView sodium, potassium, protein, fat, cholesterol, calories, carbohydrate;
     private Button submit, rescan, manually_entry;
     private EditText product_name;
 
@@ -52,7 +51,6 @@ public class Review extends AppCompatActivity implements View.OnClickListener{
         Map<String, Float>product_details = (Map<String, Float>) getIntent().getSerializableExtra("product_details");
 
         for (Map.Entry<String, Float> entry : product_details.entrySet()) {
-//            System.out.println(entry.getKey() + "=" + entry.getValue());
             this.setData(entry);
         }
     }
@@ -92,6 +90,7 @@ public class Review extends AppCompatActivity implements View.OnClickListener{
                 startActivity(new Intent(this, Extract.class));
                 break;
             case R.id.manually:
+                startActivity(new Intent(this, EnterManally.class));
                 break;
         }
     }

@@ -10,7 +10,7 @@ import android.widget.Toast;
 
 public class AddFoodButtons extends AppCompatActivity implements View.OnClickListener {
 
-    private Button previous_item, scan_new, back_button;
+    private Button previous_item, scan_new, back_button, enter_manually;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,10 +20,12 @@ public class AddFoodButtons extends AppCompatActivity implements View.OnClickLis
         previous_item = (Button) findViewById(R.id.previous_item);
         scan_new = (Button) findViewById(R.id.scan_new);
         back_button = (Button) findViewById(R.id.back_button);
+        enter_manually = (Button) findViewById(R.id.enter_manually);
 
         previous_item.setOnClickListener(this);
         scan_new.setOnClickListener(this);
         back_button.setOnClickListener(this);
+        enter_manually.setOnClickListener(this);
     }
 
     @Override
@@ -37,6 +39,9 @@ public class AddFoodButtons extends AppCompatActivity implements View.OnClickLis
                 break;
             case R.id.back_button:
                 onBackPressed();
+                break;
+            case R.id.enter_manually:
+                startActivity(new Intent(this, EnterManally.class));
                 break;
         }
     }

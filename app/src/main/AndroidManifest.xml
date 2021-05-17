@@ -16,11 +16,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Nutrizone.NoActionBar">
-        <activity android:name=".Review"></activity>
+        <activity android:name=".EnterManally"></activity>
+        <activity android:name=".Review" />
+
         <service
             android:name=".NotificationService"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true" />
 
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"

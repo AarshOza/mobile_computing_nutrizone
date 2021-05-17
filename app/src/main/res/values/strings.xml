@@ -19,4 +19,5 @@
     <string name="gender">Gender</string>
     <string name="log_out">Log Out</string>
     <string name="cups_of_water">Cups Of Water:</string>
+    <string name="enter_manually">Enter Manually</string>
 </resources>
