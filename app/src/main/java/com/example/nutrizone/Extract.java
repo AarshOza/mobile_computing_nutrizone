@@ -15,6 +15,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.util.SparseArray;
@@ -27,7 +28,10 @@ import com.google.android.gms.vision.text.TextRecognizer;
 import com.theartofdev.edmodo.cropper.CropImage;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Extract extends AppCompatActivity {
 
@@ -174,15 +178,20 @@ public class Extract extends AppCompatActivity {
                     data_array.add(new_item);
                 }
             }
-            final String fullText = stringBuilder.toString();
-            Log.d("LOGIN_DETAILS", "data is ==>" + fullText);
-//            Log.d("LOGIN_DETAILS", "Calories in Swiss Roll is ==>" + utilities.getQuantity(fullText, "Calories"));
-            Log.d("LOGIN_DETAILS", "Carbohydrate in Swiss Roll is ==>" + utilities.getQuantity(fullText, "Total Carbohydrate"));
-            Log.d("LOGIN_DETAILS", "Cholesterol in Swiss Roll is ==>" + utilities.getQuantity(fullText , "Cholesterol"));
-            Log.d("LOGIN_DETAILS", "Fat in Swiss Roll is ==>" + utilities.getQuantity(fullText, "Total Fat"));
-            Log.d("LOGIN_DETAILS", "Potassium in Swiss Roll is ==>" + utilities.getQuantity(fullText, "Potassium"));
-            Log.d("LOGIN_DETAILS", "Protein in Swiss Roll is ==>" + utilities.getQuantity(fullText, "Protein"));
-            Log.d("LOGIN_DETAILS", "Sodium in Swiss Roll is ==>" + utilities.getQuantity(fullText, "Sodium"));
+            Map<String, Float> product_details = new HashMap<String, Float>();
+            product_details.put("calories", Utility.getQuantity(stringBuilder.toString(), "Calories"));
+            product_details.put("carbohydrate", Utility.getQuantity(stringBuilder.toString(), "Total Carbohydrate"));
+            product_details.put("cholesterol", Utility.getQuantity(stringBuilder.toString(), "Cholesterol"));
+            product_details.put("fat", Utility.getQuantity(stringBuilder.toString(), "Total Fat"));
+            product_details.put("potassium", Utility.getQuantity(stringBuilder.toString(), "Potassium"));
+            product_details.put("protein", Utility.getQuantity(stringBuilder.toString(), "Protein"));
+            product_details.put("sodium", Utility.getQuantity(stringBuilder.toString(), "Sodium"));
+
+            Intent intent = new Intent(this, Review.class);
+            intent.putExtra("product_details", (Serializable) product_details);
+            startActivity(intent);
+
+            Log.d("LOGIN_DETAILS", "data is ==>" + stringBuilder.toString());
         }
     }
 

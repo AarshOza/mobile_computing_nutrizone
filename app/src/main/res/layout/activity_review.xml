@@ -1,0 +1,297 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="16sp"
+    android:paddingLeft="16sp"
+    android:paddingRight="16sp"
+    android:paddingTop="16sp"
+    tools:context=".MainActivity">
+    <!-- vertical ScrollView to make all the items or views scrollable -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/app_header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/orelega_one_regular"
+                android:text="Review the Product"
+                android:textFontWeight="600"
+                android:textSize="40sp"
+                />
+
+            <LinearLayout
+                android:id="@+id/product"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <TextView
+                    android:id="@+id/product_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.5"
+                    android:gravity="center_vertical"
+                    android:textSize="20sp"
+                    android:text="Name"
+                     />
+
+                <EditText
+                    android:id="@+id/product_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:gravity="center"
+                    android:hint="Name of the Product"
+                    android:singleLine="true"
+                     />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/calories"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <TextView
+                    android:id="@+id/calories_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.75"
+                    android:gravity="center_vertical"
+                    android:textSize="20sp"
+                    android:text="Calories:"
+                    />
+
+                <TextView
+                    android:id="@+id/calories_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.25"
+                    android:textSize="20sp"
+                    android:text="200"
+                    />
+
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/carbohydrates"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <TextView
+                    android:id="@+id/carbohydrates_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.43"
+                    android:gravity="center_vertical"
+                    android:textSize="20sp"
+                    android:text="Carbohydrates:"
+                    />
+
+                <TextView
+                    android:id="@+id/carbohydrates_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.57"
+                    android:textSize="20sp"
+                    android:text="200"
+                    />
+
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/cholesterol"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <TextView
+                    android:id="@+id/cholesterol_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.63"
+                    android:gravity="center_vertical"
+                    android:textSize="20sp"
+                    android:text="Cholesterol:"
+                    />
+
+                <TextView
+                    android:id="@+id/cholesterol_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.37"
+                    android:textSize="20sp"
+                    android:text="200"
+                    />
+
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/fat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <TextView
+                    android:id="@+id/fat_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.95"
+                    android:gravity="center_vertical"
+                    android:textSize="20sp"
+                    android:text="Fat:"
+                    />
+
+                <TextView
+                    android:id="@+id/fat_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.05"
+                    android:textSize="20sp"
+                    android:text="200"
+                    />
+
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/potassium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <TextView
+                    android:id="@+id/potassium_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.67"
+                    android:gravity="center_vertical"
+                    android:textSize="20sp"
+                    android:text="Potassium:"
+                    />
+
+                <TextView
+                    android:id="@+id/potassium_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.33"
+                    android:textSize="20sp"
+                    android:text="200"
+                    />
+
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/protein"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <TextView
+                    android:id="@+id/protein_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.82"
+                    android:gravity="center_vertical"
+                    android:textSize="20sp"
+                    android:text="Protein:"
+                    />
+
+                <TextView
+                    android:id="@+id/protein_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.18"
+                    android:textSize="20sp"
+                    android:text="200"
+                    />
+
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/sodium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <TextView
+                    android:id="@+id/sodium_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.82"
+                    android:gravity="center_vertical"
+                    android:textSize="20sp"
+                    android:text="Sodium:"
+                    />
+
+                <TextView
+                    android:id="@+id/sodium_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.18"
+                    android:textSize="20sp"
+
+                    android:text="200"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/buttons"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <Button
+                    android:id="@+id/submit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10sp"
+                    android:layout_weight="0.9"
+                    android:text="Submit"
+                     />
+
+                <Button
+                    android:id="@+id/rescan"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10sp"
+                    android:layout_weight="0.9"
+                    android:text="Rescan"
+                    />
+
+
+            </LinearLayout>
+            <Button
+                android:id="@+id/manually"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Enter it Manually"
+                />
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
