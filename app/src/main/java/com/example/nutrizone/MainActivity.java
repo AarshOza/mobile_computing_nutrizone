@@ -56,120 +56,16 @@ public class MainActivity extends AppCompatActivity  {
 
             if (user != null){
                 getDate(user);
-                Log.d("LOGIN_DETAILS", "days is ==> "+ days);
+                Log.d("LOGIN_DETAILS", "correct ==> ");
                 startActivity(new Intent(MainActivity.this, Home.class));
 
             }
 
             else{
+                Log.d("LOGIN_DETAILS", "wrong ==> ");
                 startActivity(new Intent(MainActivity.this, Login.class));
                 finish();
             }
-
-        }
-
-        @RequiresApi(api = Build.VERSION_CODES.N)
-        private void onDataChange(Map<String, Object> data) {
-
-
-            Date c = Calendar.getInstance().getTime();
-            Log.d("Current time => " , String.valueOf(c));
-            SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-            today_date = df.format(c);
-
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-            try {
-                Date date1 = sdf.parse(today_date);
-                Date date2 = sdf.parse(created_date);
-                long diff = date1.getTime() - date2.getTime();
-                days = Math.toIntExact(TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS));
-                Log.d("LOGIN_DETAILS", "days here is updated: " + days);
-
-                for (Map.Entry<String,Object> entry : data.entrySet()){
-                    if (entry.getKey().equals("name") || entry.getKey().equals("gender")
-                            || entry.getKey().equals("DisplayName")
-                            || entry.getKey().equals("id") || entry.getKey().equals("email")) {
-
-                    }
-                    else {
-                        if (entry.getKey().equals("date")) {
-                            Log.d("LOGIN_DETAILS", "in user to be updated ==> " + entry.getKey() + "and value is " + entry.getValue());
-                            FirebaseFirestore.getInstance().collection("users")
-                                .document(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                                .update(entry.getKey(), today_date)
-                                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void aVoid) {
-                                        Log.d("LOGIN_DETAILS", "Document is updated." );
-                                    }
-                                })
-                                .addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        Log.w("LOGIN_DETAILS", "Error updating document", e);
-                                    }
-                                });
-                        } else {
-                            Log.d("LOGIN_DETAILS", "in user data updated ==> " + entry.getKey() + "and value is " + entry.getValue());
-                        FirebaseFirestore.getInstance().collection("users")
-                                .document(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                                .update(entry.getKey(), "0")
-                                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void aVoid) {
-                                        Log.d("LOGIN_DETAILS", "Document is updated." );
-                                    }
-                                })
-                                .addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        Log.w("LOGIN_DETAILS", "Error updating document", e);
-                                    }
-                                });
-                        }
-                    }
-
-                }
-
-            } catch (ParseException e) {
-                e.printStackTrace();
-
-            }
-        }
-
-        private void getDate(FirebaseUser user) {
-
-            FirebaseFirestore.getInstance()
-                    .collection("users")
-                    .document(user.getUid())
-                    .addSnapshotListener(new EventListener<DocumentSnapshot>() {
-                        @RequiresApi(api = Build.VERSION_CODES.N)
-                        @Override
-                        public void onEvent(@Nullable DocumentSnapshot snapshot,
-                                            @Nullable FirebaseFirestoreException e) {
-                            if (e != null) {
-                                Log.d("LOGIN_DETAILS", "Listen failed.", e);
-                                return;
-                            }
-
-                            if (snapshot != null && snapshot.exists()) {
-                                Map<String, Object> data = snapshot.getData();
-
-                                for (Map.Entry<String, Object> entry: data.entrySet()) {
-                                    user_data  = data;
-                                    if (entry.getKey().equals("date")) {
-                                        created_date = (entry.getValue().toString());
-                                        temp = true;
-
-                                        onDataChange(data);
-                                    }
-                                }
-
-                            } else {
-                                Log.d("LOGIN_DETAILS", "Current data: null");
-                            }
-                        }
-                    });
 
         }
     };
@@ -189,5 +85,121 @@ public class MainActivity extends AppCompatActivity  {
         super.onStop();
         startService( new Intent( this, NotificationService. class )) ;
 
+    }
+
+    private void getDate(FirebaseUser user) {
+
+        Log.d("LOGIN_DETAILS", "in getDate Function ==> ");
+
+        FirebaseFirestore.getInstance()
+                .collection("users")
+                .document(user.getUid())
+                .addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                    @RequiresApi(api = Build.VERSION_CODES.N)
+                    @Override
+                    public void onEvent(@Nullable DocumentSnapshot snapshot,
+                                        @Nullable FirebaseFirestoreException e) {
+                        if (e != null) {
+                            Log.d("LOGIN_DETAILS", "Listen failed.", e);
+                            return;
+                        }
+
+                        if (snapshot != null && snapshot.exists()) {
+                            Map<String, Object> data = snapshot.getData();
+                            Log.d("LOGIN_DETAILS", "the data is ==> " + data);
+                            for (Map.Entry<String, Object> entry: data.entrySet()) {
+                                user_data  = data;
+                                if (entry.getKey().equals("date")) {
+                                    Log.d("LOGIN_DETAILS", "the created date is ==> " + entry.getValue().toString());
+                                    created_date = (entry.getValue().toString());
+                                    temp = true;
+
+                                    onDataChange(data);
+                                }
+                            }
+
+                        } else {
+                            Log.d("LOGIN_DETAILS", "Current data: null");
+                        }
+                    }
+                });
+
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void onDataChange(Map<String, Object> data) {
+
+        Log.d("LOGIN_DETAILS", "in DataChange function with data ==> " + data);
+
+        Date c = Calendar.getInstance().getTime();
+        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        today_date = df.format(c);
+        Log.d("LOGIN_DETAILS", "Today's date is ==>" + df.format(c));
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        try {
+            Date date1 = sdf.parse(today_date);
+            Date date2 = sdf.parse(created_date);
+            long diff = date1.getTime() - date2.getTime();
+            days = Math.toIntExact(TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS));
+            Log.d("LOGIN_DETAILS", "days here is updated: " + days);
+
+            if (days!=0){
+                changeDate(data);
+            }
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+
+        }
+    }
+
+    private void changeDate(Map<String, Object> data) {
+
+        for (Map.Entry<String,Object> entry : data.entrySet()){
+            if (entry.getKey().equals("name") || entry.getKey().equals("gender")
+                    || entry.getKey().equals("DisplayName")
+                    || entry.getKey().equals("id") || entry.getKey().equals("email")) {
+
+            }
+            else {
+                if (entry.getKey().equals("date")) {
+                    Log.d("LOGIN_DETAILS", "in user to be updated ==> " + entry.getKey() + "and value is " + entry.getValue());
+                    FirebaseFirestore.getInstance().collection("users")
+                            .document(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                            .update(entry.getKey(), today_date)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Log.d("LOGIN_DETAILS", "Document is updated." );
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.w("LOGIN_DETAILS", "Error updating document", e);
+                                }
+                            });
+                } else {
+                    Log.d("LOGIN_DETAILS", "in user data updated ==> " + entry.getKey() + "and value is " + entry.getValue());
+                    FirebaseFirestore.getInstance().collection("users")
+                            .document(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                            .update(entry.getKey(), "0")
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Log.d("LOGIN_DETAILS", "Document is updated." );
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.w("LOGIN_DETAILS", "Error updating document", e);
+                                }
+                            });
+                }
+            }
+
+        }
     }
 }
