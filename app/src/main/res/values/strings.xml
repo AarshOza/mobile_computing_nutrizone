@@ -3,7 +3,7 @@
     <string name="username">Username</string>
     <string name="password">Password</string>
     <string name="login">LOGIN</string>
-    <string name="register">REGISTER</string>
+    <string name="register">Create a new account now!</string>
     <string name="title_activity_registration">Registration</string>
     <string name="name">Name</string>
     <string name="register_me">Register Me !</string>

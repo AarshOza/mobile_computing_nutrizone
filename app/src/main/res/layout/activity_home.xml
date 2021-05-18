@@ -21,9 +21,9 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:layout_width="130dp"
-        android:layout_height="224dp"
-        android:layout_marginStart="264dp"
+        android:layout_width="98dp"
+        android:layout_height="95dp"
+        android:layout_marginStart="312dp"
         android:layout_marginTop="4dp"
         android:contentDescription="@string/avatar"
         android:src="@drawable/avatar"
@@ -36,28 +36,15 @@
         android:text="@string/calorie_meter"
         android:textSize="25sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.306"
+        app:layout_constraintEnd_toStartOf="@+id/progress"
+        app:layout_constraintHorizontal_bias="0.67"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.361" />
-
-    <TextView
-        android:id="@+id/calories_value"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=""
-        android:textSize="25sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.291"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.519" />
+        app:layout_constraintVertical_bias="0.24" />
 
     <com.google.android.material.slider.Slider
         android:id="@+id/slider"
-        android:layout_width="250sp"
+        android:layout_width="302dp"
         android:layout_height="wrap_content"
         android:enabled="false"
         android:valueFrom="0.0"
@@ -65,12 +52,40 @@
         app:labelBehavior="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.335"
+        app:layout_constraintHorizontal_bias="0.576"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.442"
-        app:thumbColor="#FF6200EE"
-        app:trackColor="#FF6200EE" />
+        app:layout_constraintVertical_bias="0.325"
+        app:thumbColor="@android:color/transparent"
+        app:thumbRadius="0dp"
+        app:trackColorActive="@color/dark_green"
+        app:trackColorInactive="@color/light_green"
+        app:trackHeight="20dp" />
+
+    <Button
+        android:id="@+id/progress"
+        android:layout_width="145dp"
+        android:layout_height="55dp"
+        android:text="Refresh Progress"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.812"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.231" />
+
+
+    <TextView
+        android:id="@+id/calories_value"
+        android:layout_width="328dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="64dp"
+        android:text=""
+        android:textSize="25sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.409" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -79,10 +94,10 @@
         android:textSize="25sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.252"
+        app:layout_constraintHorizontal_bias="0.276"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.618" />
+        app:layout_constraintVertical_bias="0.748" />
 
     <TextView
         android:id="@+id/cups_value"
@@ -92,10 +107,10 @@
         android:textSize="25sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.844"
+        app:layout_constraintHorizontal_bias="0.857"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.618" />
+        app:layout_constraintVertical_bias="0.748" />
 
     <Button
         android:id="@+id/add_intake"
@@ -104,10 +119,9 @@
         android:text="@string/add_intake"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.577"
+        app:layout_constraintHorizontal_bias="0.576"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.727" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/water_intake"
@@ -120,18 +134,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.847" />
-
-    <Button
-        android:id="@+id/progress"
-        android:layout_width="302dp"
-        android:layout_height="60dp"
-        android:text="Progress"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.956" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
