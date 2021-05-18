@@ -1,3 +1,4 @@
 .gradle
-.idea
+.idea/
 local.properties
+app/.DS_Store
