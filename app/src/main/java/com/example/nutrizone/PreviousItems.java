@@ -79,15 +79,23 @@ public class PreviousItems extends AppCompatActivity implements View.OnClickList
 
 
         LinearLayout parent = new LinearLayout(this);
-        parent.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        int sp_val = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 20, this.getResources().getDisplayMetrics());
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        params.setMargins(sp_val, sp_val, sp_val, sp_val);
+        parent.setLayoutParams(params);
         parent.setOrientation(LinearLayout.HORIZONTAL);
+        parent.setGravity(Gravity.CENTER);
+        parent.setBackgroundResource(R.drawable.border);
 
         TextView product =new TextView(this);
         Button add_button = new Button(this);
         int dp_val = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50, this.getResources().getDisplayMetrics());
 
-        product.setLayoutParams(new ViewGroup.LayoutParams(dp_val, dp_val));
-        product.setGravity(Gravity.START);
+        int sp_val_1 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50, this.getResources().getDisplayMetrics());
+        LinearLayout.LayoutParams params1 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        params1.setMargins(0, 0, sp_val_1-10, 0);
+        product.setLayoutParams(params1);
+        product.setGravity(Gravity.CENTER);
         product.setText(product_name);
 
 
@@ -111,7 +119,6 @@ public class PreviousItems extends AppCompatActivity implements View.OnClickList
             }
         });
 
-        parent.setBackground(Drawable.createFromPath("@drawable/border"));
         int value = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 15, this.getResources().getDisplayMetrics());
 
         parent.setPadding(value, value, value, value);

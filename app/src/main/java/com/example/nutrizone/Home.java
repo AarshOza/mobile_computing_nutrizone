@@ -169,7 +169,7 @@ public class Home extends AppCompatActivity implements View.OnClickListener, cup
             if (resultCode == RESULT_OK) {
                 Log.d("LOGIN_DETAILS", String.valueOf(result));
                 Uri resultUri = result.getUri();
-                
+
                 Picasso.get().load(resultUri).into(img);
                 img.requestLayout();
                 int sp_val = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 98, this.getResources().getDisplayMetrics());
