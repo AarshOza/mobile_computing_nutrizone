@@ -21,10 +21,14 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:layout_width="98dp"
-        android:layout_height="95dp"
-        android:layout_marginStart="312dp"
-        android:layout_marginTop="4dp"
+        android:id="@+id/profile_avatar"
+        android:clickable="true"
+        android:focusable="true"
+        android:layout_width="98sp"
+        app:layout_constraintCircleRadius="49sp"
+        android:layout_height="98sp"
+        android:layout_marginStart="285sp"
+        android:layout_marginTop="4sp"
         android:contentDescription="@string/avatar"
         android:src="@drawable/avatar"
         app:layout_constraintStart_toStartOf="parent"
@@ -36,7 +40,7 @@
         android:text="@string/calorie_meter"
         android:textSize="25sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/progress"
+        app:layout_constraintEnd_toStartOf="@+id/profile_avatar"
         app:layout_constraintHorizontal_bias="0.67"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -61,18 +65,6 @@
         app:trackColorActive="@color/dark_green"
         app:trackColorInactive="@color/light_green"
         app:trackHeight="20dp" />
-
-    <Button
-        android:id="@+id/progress"
-        android:layout_width="145dp"
-        android:layout_height="55dp"
-        android:text="Refresh Progress"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.812"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.231" />
 
 
     <TextView

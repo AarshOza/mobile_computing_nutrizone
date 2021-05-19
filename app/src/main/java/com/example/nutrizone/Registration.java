@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import com.example.nutrizone.firebase.sign_up_email;
+import com.google.android.gms.vision.L;
 
 import android.os.Bundle;
 import android.widget.RadioButton;
@@ -58,9 +59,15 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
         register_password = password_register.getText().toString().trim();
         switch (v.getId()) {
             case R.id.register_button:
-                int selectedId = gender_group.getCheckedRadioButtonId();
-                gender = (RadioButton) findViewById(selectedId);
-                sign_up_without_email.register_email(null, register_name, register_email, register_password, id, formattedDate,(String) gender.getText(),this);
+
+                if (register_name.equals("") || register_email.equals("") || register_password.equals("")) {
+                    Toast.makeText(this, "Please enter valid credentials to register yourself", Toast.LENGTH_LONG).show();
+                }
+                else {
+                    int selectedId = gender_group.getCheckedRadioButtonId();
+                    gender = (RadioButton) findViewById(selectedId);
+                    sign_up_without_email.register_email(null, register_name, register_email, register_password, id, formattedDate,(String) gender.getText(),this);
+                }
                 break;
         }
     }

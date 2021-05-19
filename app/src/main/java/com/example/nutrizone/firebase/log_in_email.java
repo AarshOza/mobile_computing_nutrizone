@@ -27,11 +27,11 @@ public class log_in_email {
                             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                             String uid = user.getUid();
                             mainActivity.startActivity(new Intent(mainActivity, Home.class));
-                            Toast.makeText(mainActivity, "User logged in succesfully", Toast.LENGTH_LONG).show();
+                            Toast.makeText(mainActivity, "User logged in successfully", Toast.LENGTH_LONG).show();
                         }
                         else {
-                            Log.d("LOGIN_DETAILS", "not logged in");
-                            Toast.makeText(mainActivity, "User cannot be login", Toast.LENGTH_LONG).show();
+                            Toast.makeText(mainActivity, "Login Failed: Invalid Email or Password", Toast.LENGTH_LONG).show();
+
                         }
                     }
                 });

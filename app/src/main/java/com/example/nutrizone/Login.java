@@ -4,9 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.nutrizone.firebase.log_in_email;
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -42,7 +44,13 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         user_password = password_text.getText().toString().trim();
         switch (v.getId()) {
             case R.id.login:
-                log_in_with_email.log_in_email(null, user_email, user_password, this);
+                if (user_email.equals("") || user_password.equals("")) {
+                    Toast.makeText(this, "Please enter valid login credentials", Toast.LENGTH_LONG).show();
+                }
+                else {
+                    Log.d("LOGIN_DETAILS","detail is " + user_email +  " and " + user_password);
+                    log_in_with_email.log_in_email(null, user_email, user_password, this);
+                }
                 break;
             case R.id.register:
                 startActivity(new Intent(this, Registration.class));

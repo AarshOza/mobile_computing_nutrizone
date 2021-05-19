@@ -51,12 +51,12 @@ public class sign_up_email {
 
                             add_user_to_firestore(register_name, register_email, id[0], gender, formattedDate);
                             String uid = user.getUid();
-                            Toast.makeText(registration, "User registered succesfully", Toast.LENGTH_LONG).show();
+                            Toast.makeText(registration, "User registered successfully", Toast.LENGTH_LONG).show();
                             Intent i = new Intent(registration, Home.class);
                             registration.startActivity(i);
                         }
                         else {
-                            Toast.makeText(registration, "User cannot be registered", Toast.LENGTH_LONG).show();
+                            Toast.makeText(registration, "Registration Failed:Please enter correct email address", Toast.LENGTH_LONG).show();
                         }
                     }
                 });

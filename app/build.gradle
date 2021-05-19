@@ -37,7 +37,7 @@ dependencies {
     api 'com.theartofdev.edmodo:android-image-cropper:2.8.+'
     // This library is used for loading the
     // cropped image into ImageView.
-    implementation 'com.squareup.picasso:picasso:2.5.2'
+    implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'com.google.android.gms:play-services-vision:20.1.3'
     implementation 'com.android.support:multidex:1.0.3'
     implementation 'com.google.android.gms:play-services-auth:19.0.0'
