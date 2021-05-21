@@ -102,7 +102,7 @@ public class products extends AppCompatDialogFragment {
         View view = inflater.inflate(R.layout.cups_water, null);
 
         builder.setView(view)
-                .setTitle("How many cups of "+Product_name+" ?")
+                .setTitle("How many "+Product_name+" ?")
 
                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {

@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -150,9 +151,13 @@ public class Review extends AppCompatActivity implements View.OnClickListener{
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.submit:
-                this.add_product_to_firebase();
-                Log.d("LOGIN_DETAILS", "Submitted");
-                this.add_product_to_user_firebase(products);
+                if (product_name.getText().toString().trim().matches("")) {
+                    Toast.makeText(this, "Please enter the product name", Toast.LENGTH_LONG).show();
+                }
+                else {
+                    this.add_product_to_firebase();
+                    this.add_product_to_user_firebase(products);
+                }
                 break;
             case R.id.rescan:
                 startActivity(new Intent(this, Extract.class));

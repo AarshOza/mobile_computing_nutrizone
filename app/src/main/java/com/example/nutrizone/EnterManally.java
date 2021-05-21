@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -108,8 +109,22 @@ public class EnterManally extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.submit:
-                this.add_product_to_firebase();
-                this.add_product_to_user_firebase();
+                if (product_name.getText().toString().trim().matches("") ||
+                        sodium_value.getText().toString().trim().matches("") ||
+                        potassium_value.getText().toString().trim().matches("") ||
+                        protein_value.getText().toString().trim().matches("") ||
+                        fat_value.getText().toString().trim().matches("") ||
+                        cholesterol_value.getText().toString().trim().matches("") ||
+                        calories_value.getText().toString().trim().matches("") ||
+                        carbohydrate_value.getText().toString().trim().matches("")) {
+
+                    Toast.makeText(this, "Please enter all the details", Toast.LENGTH_LONG).show();
+                }
+                else{
+                    this.add_product_to_firebase();
+                    this.add_product_to_user_firebase();
+                }
+
                 break;
         }
     }
@@ -155,7 +170,6 @@ public class EnterManally extends AppCompatActivity implements View.OnClickListe
 
 
         for (Map.Entry<String, Float> entry : product_details.entrySet()) {
-//here
             StringBuilder sb = new StringBuilder();
             float val = nutri(entry.getKey()) + (entry.getValue());
             sb.append(val);
@@ -177,28 +191,6 @@ public class EnterManally extends AppCompatActivity implements View.OnClickListe
                             Log.w("LOGIN_DETAILS", "Error updating document", e);
                         }
                     });
-
-//            if (entry.getKey().equals("sodium")) {
-//
-//            }
-//            if (entry.getKey().equals("potassium")) {
-//
-//            }
-//            if (entry.getKey().equals("protein")) {
-//
-//            }
-//            if (entry.getKey().equals("fat")) {
-//
-//            }
-//            if (entry.getKey().equals("cholesterol")) {
-//
-//            }
-//            if (entry.getKey().equals("calories")) {
-//
-//            }
-//            if (entry.getKey().equals("carbohydrate")) {
-//
-//            }
         }
     }
 
