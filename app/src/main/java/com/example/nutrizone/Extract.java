@@ -25,6 +25,11 @@ import com.example.nutrizone.firebase.sign_up_email;
 import com.google.android.gms.vision.Frame;
 import com.google.android.gms.vision.text.TextBlock;
 import com.google.android.gms.vision.text.TextRecognizer;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.theartofdev.edmodo.cropper.CropImage;
 
 import java.io.IOException;
@@ -45,6 +50,7 @@ public class Extract extends AppCompatActivity {
     Utility utilities = new Utility();
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +60,8 @@ public class Extract extends AppCompatActivity {
         cameraPermission = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
         storagePermission = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
     }
+
+
 
     private void showImagePicDialog() {
         String options[] = {"Camera", "Gallery"};
@@ -178,37 +186,44 @@ public class Extract extends AppCompatActivity {
                     data_array.add(new_item);
                 }
             }
-            Map<String, Float> product_details = new HashMap<String, Float>();
-            product_details.put("calories", Utility.getQuantity(stringBuilder.toString(), "Calories"));
-            product_details.put("carbohydrate", Utility.getQuantity(stringBuilder.toString(), "Total Carbohydrate"));
-            product_details.put("cholesterol", Utility.getQuantity(stringBuilder.toString(), "Cholesterol"));
-            product_details.put("fat", Utility.getQuantity(stringBuilder.toString(), "Total Fat"));
-            product_details.put("potassium", Utility.getQuantity(stringBuilder.toString(), "Potassium"));
-            product_details.put("protein", Utility.getQuantity(stringBuilder.toString(), "Protein"));
-            product_details.put("sodium", Utility.getQuantity(stringBuilder.toString(), "Sodium"));
+            try {
+                Log.d("LOGIN_DETAILS", "the data is ==> " + stringBuilder.toString());
+                Map<String, Float> product_details = new HashMap<String, Float>();
+                product_details.put("calories", Utility.getQuantity(stringBuilder.toString(), "Calories"));
+                Log.d("LOGIN_DETAILS", "calorie is ==>" + Utility.getQuantity(stringBuilder.toString(), "Calories"));
+                product_details.put("carbohydrate", Utility.getQuantity(stringBuilder.toString(), "Total Carbohydrate"));
+                Log.d("LOGIN_DETAILS", "carbohydrate is ==>" + Utility.getQuantity(stringBuilder.toString(), "Total Carbohydrate"));
+                product_details.put("cholesterol", Utility.getQuantity(stringBuilder.toString(), "Cholesterol"));
+                Log.d("LOGIN_DETAILS", "Cholesterol is ==>" + Utility.getQuantity(stringBuilder.toString(), "Cholesterol"));
+                product_details.put("fat", Utility.getQuantity(stringBuilder.toString(), "Total Fat"));
+                Log.d("LOGIN_DETAILS", "Fat is ==>" + Utility.getQuantity(stringBuilder.toString(), "Total Fat"));
+                product_details.put("potassium", Utility.getQuantity(stringBuilder.toString(), "Potassium"));
+                Log.d("LOGIN_DETAILS", "Potassium is ==>" + Utility.getQuantity(stringBuilder.toString(), "Potassium"));
+                product_details.put("protein", Utility.getQuantity(stringBuilder.toString(), "Protein"));
+                Log.d("LOGIN_DETAILS", "Protein is ==>" + Utility.getQuantity(stringBuilder.toString(), "Protein"));
+                product_details.put("sodium", Utility.getQuantity(stringBuilder.toString(), "Sodium"));
+                Log.d("LOGIN_DETAILS", "Sodium is ==>" + Utility.getQuantity(stringBuilder.toString(), "Sodium"));
 
-            Intent intent = new Intent(this, Review.class);
-            intent.putExtra("product_details", (Serializable) product_details);
-            startActivity(intent);
+                Intent intent = new Intent(this, Review.class);
+                intent.putExtra("product_details", (Serializable) product_details);
+                startActivity(intent);
 
-            Log.d("LOGIN_DETAILS", "data is ==>" + stringBuilder.toString());
+                Log.d("LOGIN_DETAILS", "data is ==>" + stringBuilder.toString());
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+                Toast.makeText(this, "Could not scan the product please enter it manually",Toast.LENGTH_LONG).show();
+            }
         }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-//        SurfaceView surface_view = findViewById(R.id.camera_view);
-//        if (surface_flag) {
-//            surface_view.setVisibility(View.VISIBLE);
-//        } else {
-//            surface_view.setVisibility(View.GONE);
-//        }
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-//        camera.release();
     }
 }

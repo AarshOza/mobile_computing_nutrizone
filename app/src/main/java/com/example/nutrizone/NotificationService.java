@@ -78,8 +78,8 @@ public class NotificationService extends Service {
         NotificationManager mNotificationManager = (NotificationManager)getSystemService( NOTIFICATION_SERVICE ) ;
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getApplicationContext() , default_notification_channel_id ) ;
         mBuilder.setContentTitle( "Nutrizone" ) ;
-        mBuilder.setContentText( "******* Need to change this string *******" ) ;
-        mBuilder.setTicker( "***** included in notification *****" ) ;
+        mBuilder.setContentText( "Its been an hour since you drank water Its time!" ) ;
+        mBuilder.setTicker( "Its been an hour since you drank water Its time!" ) ;
         mBuilder.setSmallIcon(R.drawable. ic_launcher_foreground ) ;
         mBuilder.setAutoCancel( true ) ;
         if (android.os.Build.VERSION. SDK_INT >= android.os.Build.VERSION_CODES. O ) {
